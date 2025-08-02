@@ -27,7 +27,7 @@ Aplicación web para crear, organizar y estudiar tarjetas de memoria (flashcards
 5. Guarda los datos automáticamente gracias a LocalStorage.
 
 ## Instalación
-- [FlashCardsApp](https://github.com/Misterreme/FlashCardsElectron/releases/download/App/FlashCardsApp.zip)
+- [Click aqui para instalar](https://github.com/Misterreme/FlashCardsElectron/releases/download/App/FlashCardsApp.zip)
 
 ## 📷 Imagenes 
 ![Cap](/public/cap1.png)
