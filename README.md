@@ -20,7 +20,7 @@ Aplicación web para crear, organizar y estudiar tarjetas de memoria (flashcards
 
 ## ▶️ Cómo usar la app
 
-1. Abre la app en tu navegador.
+1. Abre la app.
 2. Crea un nuevo set de tarjetas.
 3. Agrega tarjetas con contenido frontal y trasero.
 4. Estudia el set usando la vista de estudio.
@@ -30,8 +30,9 @@ Aplicación web para crear, organizar y estudiar tarjetas de memoria (flashcards
 - [Click aqui para instalar](https://github.com/Misterreme/FlashCardsElectron/releases/download/App/FlashCardsApp.zip)
 
 ## 📷 Imagenes 
-![Cap](/public/cap1.png)
-![Cap](/public/cap2.png)
-![Cap](/public/cap3.png)
+![Cap](/public/images/Cap1.png)
+![Cap](/public/images/Cap2.png)
+![Cap](/public/images/Cap3.png)
+![Cap](/public/images/Cap4.png)
 
-## 🆕 Version Beta: 1.1.3
+## 🆕 Version Beta: 1.0.0
