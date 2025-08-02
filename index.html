@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <title>FlashCards App</title>
+  <link rel="stylesheet" href="./src/styles/output.css">
+  <link rel="shortcut icon" type="image/png" href="./public/favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Una app de tarjetas de estudio simple e intuitiva para memorizar conceptos fácilmente." />
+  <meta name="author" content="@Mr.m" />
+
+  <meta property="og:title" content="FlashCards App" />
+  <meta property="og:description" content="Estudia y memoriza con facilidad usando esta app de tarjetas educativas totalmente personalizable." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://misterreme.github.io/FlashCardsApp/" />
+  <meta property="og:image" content="./public/OgImage.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="https://misterreme.github.io/FlashCardsApp/" />
+  <meta name="twitter:creator" content="@Mr.m" />
+  <meta name="twitter:title" content="Organiza y estudia con FlashCards App" />
+  <meta name="twitter:description" content="Crea, organiza y estudia tarjetas fácilmente desde tu navegador." />
+  <meta name="twitter:image" content="./public/TwitterImage.png" />
+
+  <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline';"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline';"
+    />
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+</head>
+<body class="box-border overflow-x-hidden">
+  <main class="w-dvw min-h-dvh p-16 max-[700px]:p-8 bg-[#F9FAFB] box-border relative dark:bg-[#1C1F24]">
+
+  <!-- Messages -->
+   <!-- Notification Message -->
+    <div class="flex flex-col py-4 gap-2 w-72 max-[700px]:w-[80%] max-[700px]:text-xs z-50 fixed top-1-2 left-1/2 -translate-1/2 transition-all max-[700px]:p-2" id="create-set-message" hidden>
+        <div class="succsess-alert cursor-default flex items-center justify-between w-full h-12 sm:h-14 rounded-lg dark:bg-[#2A2D31] bg-white px-[10px]">
+            <div class="flex gap-2">
+                <div class="text-gray-500 bg-[#F9FAFB] dark:bg-[#1A1D21] backdrop-blur-xl p-1 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 dark:stroke-white" fill="none" stroke="black">
+                        <use xlink:href="./public/icons/sprite.svg#icon-check-success"></use>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-black dark:text-white">Hecho con éxito</p>
+                    <p class="text-gray-500 dark:text-[#B0B0B0]">Set creado correctamente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Set Component -->
+    <div class="group select-none w-[300px] flex flex-col p-4 items-center justify-center bg-white dark:bg-[#2A2D31] shadow-lg rounded-2xl fixed top-1/2 left-1/2 -translate-1/2 z-10" id="delete-set-message" hidden>
+        <div>
+            <div class="text-center p-3 flex-auto justify-center">
+                <svg class="group-hover:animate-bounce w-12 h-12 flex items-center fill-red-500 mx-auto">
+                    <use xlink:href="./public/icons/sprite.svg#icon-trash-delete"></use>
+                </svg>
+                <h2 class="text-xl font-bold py-4 text-gray-600 dark:text-white">¿Estás seguro?</h2>
+                <p class="font-bold text-sm text-gray-400 px-2 dark:text-[#B0B0B0]">
+                    ¿Quieres eliminar este set? Esta acción no puede deshacerse.
+                </p>
+            </div>
+            <div class="flex w-full items-center gap-2 p-2 mt-2 text-center justify-center">
+                <button class="w-[50%] cursor-pointer bg-gray-700 px-5 py-2 text-sm shadow-sm font-medium tracking-wider border-2 border-gray-600 hover:border-gray-700 text-gray-300 rounded-full hover:shadow-lg hover:bg-gray-800 transition ease-in duration-300" id="cancel-delete-set-button">
+                    Cancelar
+                </button>
+                <button class="w-[50%] cursor-pointer bg-red-500 hover:bg-transparent px-5 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 hover:border-red-500 text-white hover:text-red-500 rounded-full transition ease-in duration-300" id="confirm-delete-set-button">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Card Component -->
+    <!-- <div class="group select-none w-[300px] flex flex-col p-4 items-center justify-center bg-white shadow-lg rounded-2xl fixed top-[30%] left-[40%] z-10" id="delete-card-message" hidden>
+        <div>
+            <div class="text-center p-3 flex-auto justify-center">
+                <svg class="group-hover:animate-bounce w-12 h-12 flex items-center fill-red-500 mx-auto">
+                    <use xlink:href="./public/icons/sprite.svg#icon-trash-delete"></use>
+                </svg>
+                <h2 class="text-xl font-bold py-4 text-gray-600">¿Estás seguro?</h2>
+                <p class="font-bold text-sm text-gray-400 px-2">
+                    ¿Quieres eliminar esta tarjeta? Esta acción no puede deshacerse.
+                </p>
+            </div>
+            <div class="flex p-2 mt-2 text-center space-x-1 md:block">
+                <button class="cursor-pointer mb-2 md:mb-0 bg-gray-700 px-5 py-2 text-sm shadow-sm font-medium tracking-wider border-2 border-gray-600 hover:border-gray-700 text-gray-300 rounded-full hover:shadow-lg hover:bg-gray-800 transition ease-in duration-300" id="cancel-delete-card-button">
+                    Cancelar
+                </button>
+                <button class="cursor-pointer bg-red-500 hover:bg-transparent px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 hover:border-red-500 text-white hover:text-red-500 rounded-full transition ease-in duration-300" id="confirm-delete-card-button">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div> -->
+    <div class="w-full h-full absolute top-0 left-0 bg-[#00000099]" id="delete-set-message-bg" hidden>  
+    </div>
+
+  <!-- Messages -->
+
+    <section class="w-full h-full flex flex-col items-center" id="main-section">
+      <header class="w-full flex flex-col items-center mb-8">
+        <h1 class="font-bold text-4xl mb-4 max-[700px]:text-3xl dark:text-[#E0E0E0]">FlashCards</h1>
+        <h2 class="w-full text-xl text-gray-600 text-wrap text-center max-[700px]:text-lg dark:text-[#B0B0B0]">Organiza tus estudios con tarjetas interactivas. Crea conjuntos, estudia y mejora tu memoria.</h2>
+      </header>
+
+      <div class="w-full flex flex-col items-center mb-14 mt-6">
+        <button class="w-[300px] bg-blue-500 rounded-xl p-4 flex items-center justify-center text-white font-bold text-lg gap-4 cursor-pointer hover:scale-105 transition-transform" id="create-new-set-button">
+          <svg class="icon w-6 h-6" fill="white">
+            <use xlink:href="./public/icons/sprite.svg#icon-add"></use>
+          </svg>
+          Crear nuevo conjunto
+        </button>
+      </div>
+
+      <h2 class="font-bold text-3xl max-[700px]:text-2xl mb-8 text-gray-500 dark:text-[#B0B0B0]">Mis conjuntos (<span id="sets-count"></span>)</h2>
+      <div class="w-full gap-4 px-16 grid grid-cols-3 max-[700px]:flex flex-col items-center justify-center max-[700px]:px-0" id="sets-container">
+        <!-- Aqui van los sets -->
+      </div>
+
+     <div class="w-full flex flex-col items-center justify-center" hidden id="no-sets-message">
+        <svg class="icon dark:fill-[#E0E0E0] fill-gray-500" width="80px" height="80px">
+            <use xlink:href="./public/icons/sprite.svg#icon-book"></use>
+        </svg>
+        <h3 class="text-lg mb-0 mt-4 text-gray-600 font-semibold dark:text-[#E0E0E0]">No tienes conjuntos todavia</h3>
+        <p class="w-full text-center text-md text-gray-400 dark:text-[#B0B0B0]">Comienza creando tu primer conjunto de flashcards</p>
+      </div>
+    </section>
+
+    <section class="w-full h-full flex flex-ol items-center" id="create-set-section" hidden>
+      <div class="px-56 max-[700px]:px-0 w-full flex flex-col gap-8 items-center justify-center">
+        <header class="w-full flex items-center justify-between">
+          <div class="flex items-center justify-center gap-2 cursor-pointer" id="create-set-section-back">
+            <svg class="icon w-5 h-5 dark:fill-gray-200">
+              <use xlink:href="./public/icons/sprite.svg#icon-back-arrow"></use>
+            </svg>
+            <span class="text-gray-600 font-semibold dark:text-[#E0E0E0]">Volver</span>
+          </div>
+
+          <h2 class="font-bold text-2xl mb-4 max-[700px]:text-xl dark:text-[#E0E0E0]" id="create-set-title"></h2>
+          <button class="flex gap-4 items-center justify-center rounded-md bg-blue-500 px-3 py-3 text-white font-semibold cursor-pointer hover:scale-105 transition-transform" id="save-set-button">
+            <svg class="icon w-4 h-4">
+                <use xlink:href="./public/icons/sprite.svg#icon-save"></use>
+            </svg>
+            Guardar
+          </button>
+        </header>
+
+        <!-- Este es el form para crear sets -->
+        <form action="/" class="w-full h-[330px] rounded-xl bg-white dark:bg-[#2A2D32] p-8 flex flex-col gap-4 shadow-sm" id="create-set-form">
+          <h3 class="font-semibold text-lg dark:text-[#E0E0E0]">Detalles del conjunto</h3>
+
+          <div class="flex flex-col gap-2">
+            <label for="set-name" class="font-semibold text-sm dark:text-[#B0B0B0]">Nombre del conjunto</label>
+            <input id="set-name-input" class="h-12 rounded-md px-4 py-4 border dark:text-[#B0B0B0] border-[#f5f5f5] dark:border-[#1C1F24] outline-transparent focus:outline-sky-500 transition-colors" type="text" placeholder="Ej. Números binarios" maxlength="37">
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="set-description-input" class="font-semibold text-sm dark:text-[#B0B0B0]">Descripcion <span>(opcional)</span></label>
+            <textarea id="set-description-input" class="h-24 rounded-md px-4 py-2 border dark:text-[#B0B0B0] border-[#f5f5f5] dark:border-[#1C1F24] resize-none outline-transparent focus:outline-sky-500 transition-colors" placeholder="Breve descripcion del conjunto..."></textarea>
+          </div>
+        </form>
+
+        <!-- Este es el contenedor de las previews de las tarjetas y del form para crearlas -->
+        <div class="w-full rounded-xl bg-white dark:bg-[#2A2D32] p-8 max-[700px]:px-4 flex flex-col gap-4 shadow-sm font-semibold text-lg">
+          <header class="w-full flex items-center justify-between gap-2">
+            <h3 class="dark:text-[#E0E0E0]">Tarjetas (<span id="cards-count">0</span>)</h3>
+
+            <button class="bg-blue-500 rounded-lg px-4 py-2 font-semibold flex items-center justify-center text-white gap-4 max-[700px]:gap-1 cursor-pointer hover:scale-105 transition-transform text-[0.9em] max-[700px]:text-[0.8em]" id="add-card-button">
+              <svg class="icon h-4 w-4" fill="white">
+                <use xlink:href="./public/icons/sprite.svg#icon-add"></use>
+              </svg>
+              Agregar tarjeta
+            </button>
+          </header>
+
+          <!-- Este es el form que aparece cuando se hace click en agregar tarjeta -->
+          <div class="flex flex-col  gap-2 w-full rounded-xl p-4 bg-[#EFF6FF] dark:bg-[#1C1F24]" id="create-new-card-container" hidden>
+            <h2 class="dark:text-[#E0E0E0]">Nueva tarjeta</h2>
+
+            <form action="/" class="flex flex-col gap-6 p-4 max-[700px]:p-0" id="create-preview-card-form">
+              <div class="flex w-full items-center gap-4 max-[700px]:flex-col" id="create-new-card-form">
+                <div class="w-full flex flex-col gap-2">
+                  <label for="front-card" class="text-sm text-gray-700 dark:text-[#E0E0E0]">Frente</label>
+                  <input type="text" id="front-card-input" class="placeholder:text-sm text-sm pb-16 px-4 w-[390px] h-[120px] max-w-[390px] min-h-[120px] max-[700px]:w-[100%] bg-white dark:bg-[#2A2D32] rounded-xl border border-[#E5E7EB] dark:border-[#1C1F24] outline-transparent focus:outline-sky-500 transition-all placeholder:text-gray-400 flex items-start dark:text-[#E0E0E0]" placeholder="Pregunta o término...">
+                </div>
+  
+                <div class="w-full flex flex-col gap-2">
+                  <label for="back-card" class="text-sm text-gray-700 dark:text-[#E0E0E0]">Reverso</label>
+                  <textarea type="text" id="back-card-textarea" class="placeholder:text-sm text-sm p-4 w-[390px] h-[120px] max-w-[390px] min-h-[120px] max-[700px]:w-[100%] bg-white dark:bg-[#2A2D32] resize-none rounded-xl border border-[#E5E7EB] dark:border-[#1C1F24] outline-transparent focus:outline-sky-500 transition-all placeholder:text-gray-400 dark:text-[#E0E0E0]" placeholder="Respuesta o definición..."></textarea>
+                </div>
+              </div>
+
+              <div class="flex gap-4">
+                <button class="w-[100px] bg-blue-500 rounded-xl py-2 px-4 flex items-center justify-center text-white font-semibold cursor-pointer hover:scale-105 transition-transform" data-type="add-button">Agregar</button>
+
+                <button class="w-[100px] bg-[#FFFFFF] dark:bg-[#A0522D] dark:text-white text-black rounded-xl py-2 px-4 flex items-center justify-center font-semibold cursor-pointer hover:scale-105 transition-transform" data-type="cancel-button">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Este es el contenedor de las previews de las cards -->
+          <div class="w-full flex flex-col gap-4" id="cards-preview-container">
+            
+          </div>
+
+          <!-- Este es el mensaje que aparece cuando no hay sets -->
+          <div class="w-full flex flex-col items-center justify-center gap-4 p-12" id="no-cards-message">
+            <svg class="icon h-12 w-12 fill-gray-500 dark:fill-[#E0E0E0]">
+              <use xlink:href="./public/icons/sprite.svg#icon-add"></use>
+            </svg>
+            
+            <h3 class="w-full text-center text-gray-400 text-lg dark:text-[#E0E0E0]">No hay tarjetas aún. ¡Agrega tu primera tarjeta!</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full h-full flex flex-col items-center relative" id="study-section" hidden>
+      <div class="w-[60%] max-[700px]:w-1/1 flex flex-col gap-8 items-center justify-center">
+        <header class="w-full flex items-center justify-center max-[700px]:justify-between">
+          <div class="flex items-center justify-center gap-2 cursor-pointer" data-type="back-section-button">
+            <svg class="icon w-5 h-5 dark:fill-gray-200" data-type="back-section-button">
+              <use xlink:href="./public/icons/sprite.svg#icon-back-arrow" data-type="back-section-button"></use>
+            </svg>
+            <span class="text-gray-600 font-semibold dark:text-[#E0E0E0]" data-type="back-section-button">Volver</span>
+          </div>
+          <h2 class="font-bold text-2xl dark:text-[#E0E0E0] mb-4 text-center flex-1 mr-24 max-[700px]:mr-5 max-[700px]:flex-0 max-[700px]:mb-0" id="study-card-title">A</h2>
+        </header>
+
+        <div class="w-full flex flex-col gap-2">
+          <div class="w-full flex justify-between">
+            <h3 class="font-semibold text-gray-500 dark:text-[#B0B0B0]">Tarjeta <span id="card-of"></span> de <span id="card-of-total"></span></h3>
+            <p class="font-semibold text-gray-500 dark:text-[#B0B0B0]"><span id="progress-bar-percentage">33</span>%</p>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-[#2A2D31] h-2 rounded-xl flex">
+            <div class="w-full flex transition-all h-full bg-blue-500 rounded-xl" id="progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="w-full flex flex-col gap-8" id="study-card-container">
+          <div class="w-full flex items-center justify-center">
+            <div class="w-[500px] h-[320px] max-[700px]:h-[70dvh] perspective-[1000px] bg-transparent cursor-pointer group">
+              <div class="w-full h-full transition-all duration-1000 transform-3d relative rounded-xl shadow-sm" data-type="studying-card-flip">
+                <div class="w-full h-full bg-white dark:bg-[#2A2D31] border-[#E5E7EB] absolute backface-hidden rounded-xl p-8 flex flex-col items-center justify-center gap-2">
+                  <h3 class="font-semibold w-full text-center text-wrap wrap-normal dark:text-[#E0E0E0]" data-type="study-front-card-text">Hola</h3>
+                  <p class="text-gray-300 text-sm dark:text-[#B0B0B0]">Toca para voltear</p>
+                </div>
+                <div class="rotate-y-180 w-full h-full bg-blue-50 dark:bg-[#2A2D31] border-2 border-blue-200 dark:border-[#1A1D21] absolute backface-hidden rounded-xl p-8 flex flex-col items-center justify-center gap-2">
+                  <h3 class="font-semibold w-full text-center text-wrap wrap-normal dark:text-[#E0E0E0]" data-type="study-back-card-text">Adios</h3>
+                  <p class="text-blue-300 text-sm">Toca para voltear</p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="w-full flex justify-center items-center">
+            <button class="w-[150px] max-[700px]:w-[100px] max-[700px]:text-sm bg-[#FFFFFF] text-black rounded-xl px-2 py-3 flex items-center justify-center font-semibold cursor-pointer hover:scale-105 transition-transform gap-4 border-1 border-[#E5E7EB] disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:scale-100 disabled:cursor-not-allowed  max-[700px]:gap-1" id="back-card-button" data-type="back-button" disabled>
+              <svg class="icon w-5 h-5 fill-gray-500">
+                <use xlink:href="./public/icons/sprite.svg#icon-back-arrow"></use>
+              </svg>
+              Anterior
+            </button>
+  
+            <div class="flex mx-6">
+              <p class="font-semibold text-gray-400 dark:text-[#B0B0B0]"><span id="card-of-buttons">1</span> / <span id="card-of-total-buttons"></span></p>
+            </div>
+  
+            <button class="w-[150px] max-[700px]:w-[100px] max-[700px]:text-sm bg-blue-500 text-white rounded-xl px-2 py-3 flex items-center justify-center font-semibold cursor-pointer hover:scale-105 transition-transform gap-4 max-[700px]:gap-1" id="next-card-button" data-type="next-button">
+              Siguiente
+              <svg class="icon w-5 h-5 fill-white rotate-180">
+                <use xlink:href="./public/icons/sprite.svg#icon-back-arrow"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Finish Studyng Set Message -->
+    <div class="w-[440px] h-[360px] max-[700px]:w-[90%] flex flex-col items-center justify-between py-8 px-8 bg-white dark:bg-[#1A1D21] shadow-sm rounded-xl gap-4 absolute top-1/2 left-1/2 -translate-1/2" id="finish-study-modal" hidden>
+      <div class="w-full h-[10%] mb-5 flex items-center justify-center text-6xl">🎉</div>
+      <h2 class="font-bold text-2xl dark:text-[#E0E0E0]">¡Completado!</h2>
+      <p class="text-gray-600 max-[700px]:w-full max-[700px]:text-center dark:text-[#B0B0B0] mb-2">Has terminado de estudiar <span class="font-bold" id="finish-set-name">test</span>. Repasaste <span id="finish-cards-count">3</span> tarjetas.</p>
+
+      <div class="w-full flex flex-col gap-2">
+        <button class="w-full bg-blue-500 text-white rounded-xl px-2 py-3 flex items-center justify-center font-semibold cursor-pointer hover:scale-105 transition-transform gap-4 disabled:bg-gray-100 disabled:text-gray-400 disabled:hover:scale-100 disabled:cursor-not-allowed" id="study-again-button" data-type="study-again-button">
+          <svg class="icon w-5 h-5 fill-gray-500">
+            <use xlink:href="./public/icons/sprite.svg#icon-restart"></use>
+          </svg>
+          Estudiar de nuevo
+        </button>
+
+        <button class="w-full text-black dark:bg-[#A0522D] dark:text-white rounded-xl px-2 py-3 flex items-center justify-center font-semibold cursor-pointer hover:scale-105 transition-transform gap-4 bg-[#E5E7EB]" id="go-home-button" data-type="home-button">
+          <svg class="icon w-5 h-5 fill-black dark:fill-white">
+            <use xlink:href="./public/icons/sprite.svg#icon-house"></use>
+          </svg>
+          Volver al inicio
+      </button>
+      </div>
+    </div>
+
+    <!-- Warning Card Message -->
+    <div class="w-[500px] max-[700px]:w-[90%] rounded-lg bg-white dark:bg-[#2A2D31] shadow-[0_8px_24px_rgba(149,157,165,0.2)] overflow-hidden flex flex-col items-start justify-start gap-4 py-6 px-6 box-border justify-self-center top-1/2 left-1/2 -translate-1/2 absolute z-10" id="alert-message">
+        <div class="w-full flex items-center justify-between">
+          <div class="w-full flex items-center justify-center gap-4">
+            <div class="w-10 h-10 flex justify-center items-center bg-[#ffa30d48] rounded-full ml-2">
+                 <svg class="w-6 h-6 text-[#db970e] fill-current">
+                     <use xlink:href="./public/icons/sprite.svg#icon-warning-triangle"></use>
+                 </svg>
+             </div>
+
+             <div class="flex flex-col justify-center items-start flex-grow">
+                 <p class="m-0 text-[#db970e] text-[17px] font-bold cursor-default">Mensaje de advertencia</p>
+                 <p class="m-0 font-semibold text-sm text-gray-600 cursor-default dark:text-[#B0B0B0]">Lee este mensaje, por favor.</p>
+             </div>
+           </div>
+
+           <svg class="w-[18px] h-[18px] text-gray-600 cursor-pointer fill-current hover:text-gray-800 dark:text-white dark:hover:text-[#B0B0B0] transition-colors" id="close-alert-message-button">
+              <use xlink:href="./public/icons/sprite.svg#icon-close-cross"></use>
+          </svg>
+        </div>
+        <div class="w-full px-4 py-2">
+          <p class="w-full wrap-normal text-wrap text-left dark:text-white">Esta app guarda la información en tu navegador (localStorage). 
+            Si vacías el almacenamiento o cambias de dispositivo, perderás tus datos.
+          </p>
+        </div>
+    </div>
+    <div class="w-full h-full absolute top-0 left-0 bg-[#00000099]" id="alert-message-bg" >  
+    </div>
+  </main>
+  <script src="./src/scripts/renderer.js" type="module"></script>
+</body>
+</html>

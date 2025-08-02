@@ -1,0 +1,54 @@
+{
+  "name": "flashcardselectronapp",
+  "version": "1.0.0",
+  "description": "Una aplicación de flashcards hecha con Electron",
+  "license": "MIT",
+  "author": "@Mr.m",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "build:styles": "tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true,
+        "icon": "./public/icons/favicon.ico"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "FlashCardsElectronApp",
+            "iconUrl": "file:///c:/Users/nunez/OneDrive/Escritorio/FlashCardsElectronApp/public/icons/favicon.ico",
+            "setupIcon": "./public/icons/favicon.ico",
+            "icon": "./public/icons/favicon.ico"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-appx": "^7.8.2",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
+    "electron": "^28.0.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "tailwindcss": "^3.4.0"
+  }
+}
