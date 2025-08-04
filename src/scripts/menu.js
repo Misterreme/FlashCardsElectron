@@ -24,22 +24,18 @@ const setMainMenu = (win) => {
                 }
             ]
         },
+    ]
 
-        {
-            label: 'View',
+    if (process.env.NODE_ENV !== "production") {
+        template.push({
+            label: "DevTools",
             submenu: [
                 { role: 'reload' },
                 { role: 'forceReload' },
                 { role: 'toggleDevTools' },
-                { type: 'separator' },
-                { role: 'resetZoom' },
-                { role: 'zoomIn' },
-                { role: 'zoomOut' },
-                { type: 'separator' },
-                { role: 'togglefullscreen' }
             ]
-        },
-    ]
+        })
+    }
 
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
