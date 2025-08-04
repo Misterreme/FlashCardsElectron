@@ -1,7 +1,7 @@
 {
   "name": "flashcards",
   "productName": "FlashCards App",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Una aplicación de flashcards hecha con Electron",
   "license": "MIT",
   "author": "@Mr.m",
