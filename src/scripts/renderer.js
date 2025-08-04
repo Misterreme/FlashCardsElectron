@@ -211,8 +211,6 @@ document.addEventListener("click", (e) => {
     const addButton = click.closest("[data-type='add-button']");
     const cancelButton = click.matches("[data-type='cancel-button']");
     const editButton = click.matches("[data-type='edit-card-button']");
-    const frontCardText = document.querySelector("[data-type='front-card-text']");
-    const backCardText = document.querySelector("[data-type='reverse-card-text']");
 
     if (editButton) {
         isEditingCard = true;
@@ -220,24 +218,25 @@ document.addEventListener("click", (e) => {
         const cardToEditId = Number(cardToEdit.id);
         editingCard = cardToEdit;
         editingCardId = cardToEditId;
+        const editingCardFrontText = editingCard.querySelector("[data-type='front-card-text']");
+        const editingCardBackText = editingCard.querySelector("[data-type='reverse-card-text']");
 
         if (isEditingCard) {
-            frontCardInput.value = frontCardText.textContent.trim();
-            backCardTextarea.value = backCardText.textContent.trim();
+            frontCardInput.value = editingCardFrontText.textContent.trim();
+            backCardTextarea.value = editingCardBackText.textContent.trim();
             showCreateCardForm();
         }; 
     };
 
     if (addButton) {
         if (isEditingCard) {
-            frontCardText.textContent = frontCardInput.value.trim();
-            backCardText.textContent = backCardTextarea.value.trim();
+            const editingCardFrontText = editingCard.querySelector("[data-type='front-card-text']");
+            const editingCardBackText = editingCard.querySelector("[data-type='reverse-card-text']");
+            editingCardFrontText.textContent = frontCardInput.value.trim();
+            editingCardBackText.textContent = backCardTextarea.value.trim();
             createNewCardContainer.hidden = true;
             frontCardInput.value = "";
             backCardTextarea.value = "";
-            // editingCard = null;
-            // editingCardId = null;
-            // isEditingCard = false;
         };
     };
 
@@ -376,15 +375,15 @@ function loadSets() {
                         <h3 class="font-semibold text-lg dark:text-[#E0E0E0] line-clamp-1" data-type="set-name-loaded">${set.name}</h3>
     
                         <div class="flex gap-4" data-type="edit-delete-container">
-                            <div class="p-2 rounded-xl group hover:bg-blue-50 ">
+                            <div class="p-2 rounded-xl group hover:bg-blue-50" data-type="edit-button">
                                 <svg class="icon cursor-pointer fill-[#808080] dark:fill-[#E0E0E0] group-hover:fill-blue-500" data-type="edit-button" width="16px" height="16px">
-                                    <use xlink:href="./public/icons/sprite.svg#icon-edit"></use>
+                                    <use xlink:href="./public/icons/sprite.svg#icon-edit" data-type="edit-button"></use>
                                 </svg>
                             </div>
 
-                            <div class="p-2 rounded-xl group hover:bg-red-50">
+                            <div class="p-2 rounded-xl group hover:bg-red-50" data-type="delete-button">
                                 <svg class="icon cursor-pointer fill-[#808080] dark:fill-[#E0E0E0] group-hover:fill-red-500" data-type="delete-button" width="16px" height="16px">
-                                    <use xlink:href="./public/icons/sprite.svg#icon-delete"></use>
+                                    <use xlink:href="./public/icons/sprite.svg#icon-delete" data-type="delete-button"></use>
                                 </svg>
                             </div>
                         </div>
@@ -484,15 +483,15 @@ function createCard() {
                 </div>
     
                 <div class="flex gap-4" data-type="edit-delete-container">
-                    <div class="p-2 rounded-xl group hover:bg-blue-50">
+                    <div class="p-2 rounded-xl group hover:bg-blue-50" data-type="edit-card-button">
                         <svg class="icon cursor-pointer dark:fill-[#E0E0E0] fill-[#808080] group-hover:fill-blue-500" data-type="edit-card-button" width="16px" height="16px">
-                            <use xlink:href="./public/icons/sprite.svg#icon-edit"></use>
+                            <use xlink:href="./public/icons/sprite.svg#icon-edit" data-type="edit-card-button"></use>
                         </svg>
                     </div>
 
-                    <div class="p-2 rounded-xl group hover:bg-red-50">
+                    <div class="p-2 rounded-xl group hover:bg-red-50" data-type="delete-card-button">
                         <svg class="icon cursor-pointer dark:fill-[#E0E0E0] fill-[#808080] group-hover:fill-red-500" data-type="delete-card-button" width="16px" height="16px">
-                            <use xlink:href="./public/icons/sprite.svg#icon-delete"></use>
+                            <use xlink:href="./public/icons/sprite.svg#icon-delete" data-type="delete-card-button"></use>
                         </svg>
                     </div>
                 </div>
@@ -569,15 +568,15 @@ function loadCards(setId) {
                 </div>
 
                     <div class="flex gap-4" data-type="edit-delete-container">
-                        <div class="p-2 rounded-xl group hover:bg-blue-50">
+                        <div class="p-2 rounded-xl group hover:bg-blue-50" data-type="edit-card-button">
                             <svg class="icon cursor-pointer fill-[#808080] dark:fill-[#E0E0E0] group-hover:fill-blue-500" data-type="edit-card-button" width="16px" height="16px">
-                                <use xlink:href="./public/icons/sprite.svg#icon-edit"></use>
+                                <use xlink:href="./public/icons/sprite.svg#icon-edit" data-type="edit-card-button"></use>
                             </svg>
                         </div>
 
-                        <div class="p-2 rounded-xl group hover:bg-red-50">
+                        <div class="p-2 rounded-xl group hover:bg-red-50" data-type="delete-card-button">
                             <svg class="icon cursor-pointer fill-[#808080] dark:fill-[#E0E0E0] group-hover:fill-red-500" data-type="delete-card-button" width="16px" height="16px">
-                                <use xlink:href="./public/icons/sprite.svg#icon-delete"></use>
+                                <use xlink:href="./public/icons/sprite.svg#icon-delete" data-type="delete-card-button"></use>
                             </svg>
                         </div>
                     </div>
