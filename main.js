@@ -2,7 +2,13 @@ const { app, BrowserWindow } = require('electron/main')
 const path = require("node:path")
 global.appRoot = __dirname
 
-// Establece el ID de la aplicación para Windows
+if(require('electron-squirrel-startup')) return;
+
+app.setAppUserModelId("com.squirrel.AppName.AppName");
+
+const { updateElectronApp } = require('update-electron-app')
+updateElectronApp()
+
 if (process.platform === 'win32') {
     app.setAppUserModelId("com.flashcards.app")
 }
@@ -12,7 +18,7 @@ const { setMainMenu } = require("./src/scripts/menu")
 
 const createWindow = () => {
     const win = new BrowserWindow({
-        icon: path.join(__dirname, "public", "icons", "favicon.ico"),
+        icon: "/public/icons/favicon.ico",
         width: 1500,
         height: 1500,
         webPreferences: {

@@ -1,48 +1,23 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+require('dotenv').config();
 
 module.exports = {
   packagerConfig: {
+    name: "FlashCards App",
     asar: true,
-    icon: "/public/icons/favicon"
+    icon: "./public/icons/favicon"
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
       config: {
+        name: "FlashCardsApp",
         iconUrl: "https://ibb.co/8LPCg0ff",
-        icon: "/public/icons/favicon.png"
+        icon: "./public/icons/favicon.ico",
+        setupIcon: "./public/icons/favicon.ico",
       },
-    },
-    {
-      name: '@electron-forge/maker-appx',
-      config: {
-        identityName: 'CN=FlashCards',
-        publisher: 'CN=FlashCards',
-        packageName: 'FlashCards',
-        packageDisplayName: 'FlashCards',
-        packageVersion: '1.0.0.0',
-        description: 'App de FlashCards hecha con Electron',
-        languages: ['es-DO'],
-        publisherDisplayName: '@Mr.m',
-        applicationId: 'FlashCard',
-      },
-    },
-    {
-      name: '@electron-forge/maker-zip',
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-wix',
-      config: {},
     },
   ],
   plugins: [
@@ -62,4 +37,16 @@ module.exports = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'Misterreme',
+          name: 'FlashCardsElectron'
+        },
+        prerelease: true
+      }
+    }
+  ]
 };

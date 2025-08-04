@@ -6,6 +6,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+#env 
+.env
+
+#certs
+/certs
+
 # Executables
 *.exe
 *.msi
